@@ -1,11 +1,39 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Integración Rappi</title>
-    <link rel="preconnect" href="https://rsms.me/" />
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+      Herramienta de Integración API Rappi | Gestión de Catálogo y Pedidos
+    </title>
+
+    <meta name="description" content="Interfaz de cliente para la API de Rappi. Facilita la gestión de catálogo, productos, variaciones, pedidos, tiendas, y más. Incluye visor JSON para depuración.">
+    <meta name="keywords" content="Rappi API, Integración Rappi, Gestión Rappi, API Cliente, Catálogo Rappi, Pedidos Rappi, Desarrollo Rappi, Herramienta API">
+    <meta name="author" content="José Shardin">
+
+    <meta property="og:title" content="Herramienta de Integración API Rappi">
+    <meta property="og:description" content="Interfaz de cliente para gestionar fácilmente la API de Rappi: catálogo, pedidos, tiendas y más.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Herramienta de Integración Rappi">
+    <meta property="og:locale" content="es_LA">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Herramienta de Integración API Rappi">
+    <meta name="twitter:description" content="Gestiona eficientemente tu integración con Rappi: catálogo, productos, pedidos y más.">
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WE51S3RSJN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-WE51S3RSJN');
+    </script>
+
     <style>
       /* Reset Básico y Estilos Globales */
       *,
@@ -628,9 +656,11 @@
         border-radius: 4px;
       }
     </style>
-  </head>
-  <body>
-    <div id="app" class="container" style="background-color: #ffffff"></div>
+</head>
+<body>
+    <div id="app" class="container">
+        <!-- El contenido de la aplicación se renderizará aquí por JavaScript -->
+    </div>
 
     <div id="createProductModal" class="modal-overlay"></div>
     <div id="editProductModal" class="modal-overlay"></div>
@@ -666,9 +696,7 @@
           <h4>Última Respuesta API:</h4>
           <button class="btn btn-copy" id="copyApiResponseBtn">Copiar</button>
         </div>
-        <pre
-          class="json-viewer"
-        ><code id="lastResponseDataJson">N/A</code></pre>
+        <pre class="json-viewer"><code id="lastResponseDataJson">N/A</code></pre>
       </div>
     </div>
 
@@ -740,7 +768,7 @@
         presentation_unit_type: "Und",
         images: [
           {
-            path: "https://placehold.co/600x400/FF0000/FFFFFF.png?text=Producto",
+            path: "https://placehold.co/600x400/FF0000/FFFFFF.png",
             position: 1,
           },
         ],
@@ -752,7 +780,7 @@
             name: "",
             images: [
               {
-                path: "https://placehold.co/600x400/00FF00/FFFFFF.png?text=Variacion1",
+                path: "https://placehold.co/600x400/00FF00/FFFFFF.jpg",
                 position: 1,
               },
             ],
@@ -860,10 +888,7 @@
           imagePath.startsWith("http") ||
           imagePath.startsWith("data:")
         ) {
-          return (
-            imagePath ||
-            "https://placehold.co/100x100/cccccc/969696.png?text=No+Img"
-          );
+          return imagePath || "https://placehold.co/100x100/cccccc/969696.png";
         }
         const baseUrl =
           countryImageBaseUrls[selectedCountry] || countryImageBaseUrls["COL"];
@@ -952,7 +977,7 @@
         const config = { method, headers };
         if (
           body &&
-          (method === "POST" || method === "PUT" || method === "PATCH")
+          (method === "POST" || method === "PUT" || method === "PATCH" || method === "DELETE")
         ) {
           config.body = JSON.stringify(body);
         }
@@ -1302,7 +1327,7 @@
                       level > 0
                         ? node.children && node.children.length > 0
                           ? "📁"
-                          : "�"
+                          : "📄"
                         : "🌳"
                     } ${
           node.name
@@ -1435,7 +1460,7 @@
           presentation_unit_type: "Und",
           images: [
             {
-              path: "https://placehold.co/600x400/FF0000/FFFFFF.png?text=Producto",
+              path: "https://placehold.co/600x400/FF0000/FFFFFF.png",
               position: 1,
             },
           ],
@@ -1447,7 +1472,7 @@
               name: "",
               images: [
                 {
-                  path: "https://placehold.co/600x400/00FF00/FFFFFF.png?text=Variacion1",
+                  path: "https://placehold.co/600x400/00FF00/FFFFFF.png",
                   position: 1,
                 },
               ],
@@ -1864,7 +1889,7 @@
         renderDesassociateModal();
         const url = `${countryBaseUrls[selectedCountry]}/api/open-api/v1/catalog/stores/${storeToDesassociateFromId}/inventory/${productToDesassociateId}`;
         try {
-          await makeApiCall(url, "DELETE");
+          await makeApiCall(url, "DELETE", {}); // Se añade cuerpo vacío para compatibilidad
           setGlobalApiMessage(
             "success",
             `Producto ID ${productToDesassociateId} desasociado exitosamente de la tienda ID ${storeToDesassociateFromId}.`
@@ -1923,7 +1948,7 @@
             "info",
             `Intentando eliminar "${productToDeleteFromCatalog.name}" (ID: ${productToDeleteFromCatalog.id}) del catálogo de Rappi...`
           );
-          await makeApiCall(deleteUrl, "DELETE");
+          await makeApiCall(deleteUrl, "DELETE", {}); // Se añade cuerpo vacío para compatibilidad
           allCatalogProducts = allCatalogProducts.filter(
             (p) => p.id.toString() !== productToDeleteFromCatalog.id.toString()
           );
@@ -2024,6 +2049,9 @@
         renderAppOnly();
       }
 
+      // =================================================================
+      // FUNCIÓN CORREGIDA PARA ASOCIAR/ACTUALIZAR PRODUCTOS
+      // =================================================================
       async function handleAssociateProductToStores(event) {
         event.preventDefault();
         if (!productToAssociate || !productToAssociate.id || !accessToken) {
@@ -2107,9 +2135,9 @@
 
         for (const storeData of selectedStoresData) {
           const productIdRappi = productToAssociate.id.toString();
-          const associateUrl = `${countryBaseUrls[selectedCountry]}/api/open-api/v1/catalog/stores/${storeData.storeId}/inventory`;
-          const associatePayload = {
-            id: productIdRappi,
+          
+          const updateUrl = `${countryBaseUrls[selectedCountry]}/api/open-api/v1/catalog/stores/${storeData.storeId}/inventory/${productIdRappi}`;
+          const updatePayload = {
             price: storeData.price,
             stock: storeData.stock,
             sale_price: storeData.sale_price,
@@ -2117,47 +2145,49 @@
 
           try {
             console.log(
-              `Intentando POST para asociar producto ${productIdRappi} en tienda ${storeData.storeId}`
+              `Intentando PUT (actualizar) para producto ${productIdRappi} en tienda ${storeData.storeId}`
             );
-            await makeApiCall(associateUrl, "POST", associatePayload);
+            await makeApiCall(updateUrl, "PUT", updatePayload);
             associationResults.push(
-              `Éxito (Nueva Asociación): ${productToAssociate.name} en tienda ID ${storeData.storeId}.`
+              `Éxito (Actualización): ${productToAssociate.name} en tienda ID ${storeData.storeId}.`
             );
             successCount++;
-          } catch (postError) {
-            // Si el POST falla (ej. 400 por producto ya existente), intentar PUT
-            if (
-              postError.message &&
-              (postError.message.includes("400") ||
-                postError.message.includes("already exists") ||
-                postError.message.includes("409"))
-            ) {
+          } catch (putError) {
+            if (putError.message && (putError.message.includes("404") || putError.message.toLowerCase().includes("not found"))) {
               console.log(
-                `POST falló (posiblemente ya existe o conflicto) para producto ${productIdRappi} en tienda ${storeData.storeId}: ${postError.message}. Intentando PUT para actualizar.`
+                `PUT falló (producto no encontrado en inventario de la tienda), intentando POST para crear asociación.`
               );
-              const updateUrl = `${countryBaseUrls[selectedCountry]}/api/open-api/v1/catalog/stores/${storeData.storeId}/inventory/${productIdRappi}`;
-              const updatePayload = {
-                price: storeData.price,
-                stock: storeData.stock,
-                sale_price: storeData.sale_price,
+              
+              const associateUrl = `${countryBaseUrls[selectedCountry]}/api/open-api/v1/catalog/stores/${storeData.storeId}/inventory`;
+              
+              // *** INICIO DE LA CORRECCIÓN FINAL ***
+              // El payload para POST de un solo producto es un objeto simple, no un array.
+              // El ID del producto debe ser un NÚMERO.
+              const associatePayload = {
+                  id: parseInt(productIdRappi), 
+                  price: storeData.price,
+                  stock: storeData.stock,
+                  sale_price: storeData.sale_price,
               };
+              // *** FIN DE LA CORRECCIÓN FINAL ***
+
               try {
-                await makeApiCall(updateUrl, "PUT", updatePayload);
+                await makeApiCall(associateUrl, "POST", associatePayload);
                 associationResults.push(
-                  `Éxito (Actualización): ${productToAssociate.name} actualizado en tienda ID ${storeData.storeId}.`
+                  `Éxito (Nueva Asociación): ${productToAssociate.name} creado en tienda ID ${storeData.storeId}.`
                 );
                 successCount++;
-              } catch (putError) {
+              } catch (postError) {
                 associationResults.push(
-                  `Error (Actualización) en tienda ID ${storeData.storeId} para producto ${productIdRappi}: ${putError.message}`
+                  `Error (Nueva Asociación) en tienda ID ${storeData.storeId} para producto ${productIdRappi}: ${postError.message}`
                 );
                 errorCount++;
                 allSuccessful = false;
               }
             } else {
-              // Otro error en POST que no es por "ya existe"
+              // Si el PUT falla por otra razón, es un error de actualización.
               associationResults.push(
-                `Error (Nueva Asociación) en tienda ID ${storeData.storeId} para producto ${productIdRappi}: ${postError.message}`
+                `Error (Actualización) en tienda ID ${storeData.storeId} para producto ${productIdRappi}: ${putError.message}`
               );
               errorCount++;
               allSuccessful = false;
@@ -2188,6 +2218,10 @@
           renderAssociateModal();
         }
       }
+      // =================================================================
+      // FIN DE LA FUNCIÓN CORREGIDA
+      // =================================================================
+
 
       function applyOrderSearch() {
         if (!currentOrderSearchTerm) {
@@ -3277,6 +3311,7 @@
           closeSubstituteModal();
         } catch (error) {
           console.error("Error al iniciar sustitución:", error);
+          setGlobalApiMessage("error", `Error al proponer sustitución: ${error.message}`);
         } finally {
           isInitiatingSubstitution = false;
           if (showSubstituteModal) {
@@ -3387,7 +3422,7 @@
               }"></div>
                         
                         <div class="form-group">
-                            <label>Atributos para Variación ${
+                            <label>Opcional: Atributos para Variación ${
                               index + 1
                             }:</label>
                             <div id="variationAttributesContainer_${index}" class="attributes-container">
@@ -3414,7 +3449,7 @@
                                 `
                                         )
                                         .join("")
-                                    : '<p class="text-xs">Cargue atributos desde la sección principal del producto para ver opciones.</p>'
+                                    : '<p class="text-xs">👉 Cargue atributos desde la sección principal del producto para ver opciones.</p>'
                                 }
                             </div>
                         </div>
@@ -3516,7 +3551,7 @@
                                 }"></div>
                             </div>
                              <div class="form-group mt-2">
-                                <label>Atributos para Producto Principal (si no tiene variaciones):</label>
+                                <label>OPCIONAL: Atributos para Producto Principal (si no tiene variaciones):</label>
                                 <div id="newProdAttributesContainer" class="attributes-container">
                                     ${
                                       availableAttributes.length > 0
@@ -3623,7 +3658,7 @@
                 name: "",
                 images: [
                   {
-                    path: "https://placehold.co/600x400/00FF00/FFFFFF.png?text=VariacionNueva",
+                    path: "https://placehold.co/600x400/00FF00/FFFFFF.png",
                     position: 1,
                   },
                 ],
@@ -3690,7 +3725,7 @@
                 images: [
                   {
                     path:
-                      "https://placehold.co/600x400/00FF00/FFFFFF.png?text=Variacion" +
+                      "https://placehold.co/600x400/00FF00/FFFFFF.png" +
                       (newProduct.variations.length + 1),
                     position: 1,
                   },
@@ -4850,7 +4885,7 @@
                             : ""
                         )}" alt="${
                 p.name
-              }" onerror="this.src='https://placehold.co/40x40/cccccc/969696.png?text=NoImg'; this.onerror=null;">
+              }" onerror="this.src='https://placehold.co/40x40/cccccc/969696.png?text=Img'">
                         <div>
                             <p class="text-sm font-medium">${p.name}</p>
                             <p class="text-xs text-gray-500">SKU: ${
@@ -4966,13 +5001,6 @@
             "input",
             handleSubstituteCatalogSearch
           );
-          // Intento de re-focus (puede ser imperfecto)
-          if (document.activeElement !== searchInputEl) {
-            //searchInputEl.focus();
-            //const val = searchInputEl.value; // Store current value
-            //searchInputEl.value = ''; // Clear and re-set to move cursor to end
-            //searchInputEl.value = val;
-          }
         }
 
         document
@@ -5348,6 +5376,9 @@
                             : ""
                         }
                     </div>
+                    <div class="text-center text-sm text-gray-500 mt-4">
+                        <p>Para mejoras, ideas o reporte de errores, contactar a: <a href="mailto:jose.shardin@rappi.com" class="text-blue-600 hover:underline">jose.shardin@rappi.com</a></p>
+                    </div>
                 `
                     : ""
                 }
@@ -5649,13 +5680,12 @@
                 orderId,
                 productId,
                 productName,
-                userPreference
-              ); // Pasar el objeto
+                userPreference ? JSON.stringify(userPreference) : null
+              );
             })
         );
       }
       render();
     </script>
-  </body>
+</body>
 </html>
-�
