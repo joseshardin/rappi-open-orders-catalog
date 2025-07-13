@@ -4,6 +4,14 @@ Este proyecto es una aplicación web frontend de una sola página (SPA) diseñad
 
 La aplicación está construida puramente con HTML, CSS y JavaScript vainilla (utilizando módulos ES6).
 
+## Novedades en la Versión 2.0
+
+* **Corrección Mayor en Asociación de Productos:** Se ha implementado una lógica de asociación mucho más robusta y eficiente. El sistema ahora intenta primero actualizar un producto (PUT) y, solo si no existe en el inventario de la tienda, procede a crearlo (POST), utilizando el formato de payload correcto para cada caso. Esto resuelve los errores 400 Bad Request y optimiza las llamadas a la API.
+
+* **Integración con Google Analytics:** Se ha añadido el tag de Google Analytics para permitir el seguimiento del uso de la herramienta y * facilitar futuras mejoras.
+
+* **Información de Contacto**: Se ha incluido un correo de contacto en el pie de página para que los usuarios puedan enviar feedback, ideas o reportar errores fácilmente.
+
 ## Funcionalidades Principales
 
 ### Autenticación y Configuración
